@@ -1,0 +1,144 @@
+/* Reset default margins and padding for consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Center the calculator on the screen */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the table for the calculator */
+table {
+    color: #fff;
+    text-align: center;
+    border-collapse: collapse;
+    background-color: #4e494d;
+    width: 90vw;
+    max-width: 400px;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style table rows */
+tr {
+    height: 16.02vh;
+}
+
+/* Style table cells (buttons) */
+td {
+    width: 18vw;
+    max-width: 80px;
+    border: 1px solid #4e494d;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Style the input box */
+#inputBox {
+    background-color: #4e494d;
+    text-align: right;
+    width: 100%;
+    height: 60px;
+    font-size: 1.5rem;
+    color: #fff;
+    border: 0px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Highlight error state in input box */
+#inputBox[value="Error"] {
+    color: #ff3b30; /* Red color for error */
+}
+
+/* Button styles */
+.digitButton {
+    background-color: #807e80;
+}
+
+.digitButton:hover {
+    background-color: #707070;
+}
+
+.operatorButton {
+    background-color: #ff9e06;
+}
+
+.operatorButton:hover {
+    background-color: #e08e00;
+}
+
+.scientificButton {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.scientificButton:hover {
+    background-color: #45a049;
+}
+
+.ACButton {
+    background-color: #656165;
+}
+
+.ACButton:hover {
+    background-color: #555055;
+}
+
+/* Style for buttons with colspan (e.g., 0 button) */
+td[colspan="2"] {
+    background-color: #807e80; /* Match digitButton for 0 */
+}
+
+td[colspan="2"]:hover {
+    background-color: #707070;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    table {
+        width: 95vw;
+        max-width: 350px;
+    }
+    #inputBox {
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    td {
+        width: 19vw;
+        padding: 10px;
+        font-size: 1rem;
+    }
+    tr {
+        height: 14vh;
+    }
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 400px) {
+    table {
+        width: 98vw;
+        min-width: 200px;
+    }
+    #inputBox {
+        height: 40px;
+        font-size: 1rem;
+    }
+    td {
+        width: 19.6vw;
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    tr {
+        height: 12vh;
+    }
+}

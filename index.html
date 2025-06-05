@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta charset="UTF-8" />
+        <title>Scientific Calculator</title>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td colspan="5">
+                    <input type="text" id="inputBox" value="0" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td class="scientificButton" onclick="scientificBtnPressed('sin')">sin</td>
+                <td class="scientificButton" onclick="scientificBtnPressed('cos')">cos</td>
+                <td class="scientificButton" onclick="scientificBtnPressed('tan')">tan</td>
+                <td class="scientificButton" onclick="scientificBtnPressed('sqrt')">√</td>
+                <td class="scientificButton" onclick="scientificBtnPressed('square')">x²</td>
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitBtnPressed('7')">7</td>
+                <td class="digitButton" onclick="digitBtnPressed('8')">8</td>
+                <td class="digitButton" onclick="digitBtnPressed('9')">9</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('*')">×</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('^')">^</td>
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitBtnPressed('4')">4</td>
+                <td class="digitButton" onclick="digitBtnPressed('5')">5</td>
+                <td class="digitButton" onclick="digitBtnPressed('6')">6</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('-')">-</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('%')">%</td>
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitBtnPressed('1')">1</td>
+                <td class="digitButton" onclick="digitBtnPressed('2')">2</td>
+                <td class="digitButton" onclick="digitBtnPressed('3')">3</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('+')">+</td>
+                <td class="operatorButton" onclick="operatorBtnPressed('/')">/</td>
+            </tr>
+            <tr>
+                <td class="digitButton" colspan="2" onclick="digitBtnPressed('0')">0</td>
+                <td class="digitButton" onclick="digitBtnPressed('.')">.</td>
+                <td class="ACButton" onclick="btnACPressed()">AC</td>
+                <td class="operatorButton" onclick="equalsBtnPressed()">=</td>
+            </tr>
+        </table>
+        
+        <script>
+            var newLine = true;
+            var value1 = 0;
+            var CurrentOperator;
+
+            function digitBtnPressed(button) {
+                var inputBox = document.getElementById("inputBox");
+                if (newLine || inputBox.value === "0" || inputBox.value === "Error") {
+                    inputBox.value = button;
+                    newLine = false;
+                } else {
+                    inputBox.value += button;
+                }
+            }
+
+            function btnACPressed() {
+                document.getElementById("inputBox").value = "0";
+                value1 = 0;
+                CurrentOperator = null;
+                newLine = true;
+            }
+
+            function operatorBtnPressed(operator) {
+                var inputBox = document.getElementById("inputBox");
+                if (inputBox.value === "Error") {
+                    inputBox.value = "0";
+                }
+                CurrentOperator = operator;
+                value1 = parseFloat(inputBox.value);
+                newLine = true;
+            }
+
+            function scientificBtnPressed(func) {
+                var inputBox = document.getElementById("inputBox");
+                var currentValue = parseFloat(inputBox.value);
+                var result;
+
+                if (inputBox.value === "Error") {
+                    inputBox.value = "0";
+                    currentValue = 0;
+                }
+
+                switch (func) {
+                    case "sin":
+                        result = Math.sin(currentValue * Math.PI / 180);
+                        break;
+                    case "cos":
+                        result = Math.cos(currentValue * Math.PI / 180);
+                        break;
+                    case "tan":
+                        result = Math.tan(currentValue * Math.PI / 180);
+                        if (Math.abs(result) > 1e10) { // Handle tan(90°), tan(270°), etc.
+                            inputBox.value = "Error";
+                            return;
+                        }
+                        break;
+                    case "sqrt":
+                        if (currentValue < 0) {
+                            inputBox.value = "Error";
+                            return;
+                        }
+                        result = Math.sqrt(currentValue);
+                        break;
+                    case "square":
+                        result = currentValue * currentValue;
+                        break;
+                }
+                inputBox.value = result.toFixed(4);
+                newLine = true;
+            }
+
+            function equalsBtnPressed() {
+                var inputBox = document.getElementById("inputBox");
+                if (inputBox.value === "Error") {
+                    inputBox.value = "0";
+                    return;
+                }
+                var value2 = parseFloat(inputBox.value);
+                var finalTotal;
+
+                switch (CurrentOperator) {
+                    case "+":
+                        finalTotal = value1 + value2;
+                        break;
+                    case "-":
+                        finalTotal = value1 - value2;
+                        break;
+                    case "/":
+                        if (value2 === 0) {
+                            inputBox.value = "Error";
+                            return;
+                        }
+                        finalTotal = value1 / value2;
+                        break;
+                    case "*":
+                        finalTotal = value1 * value2;
+                        break;
+                    case "^":
+                        finalTotal = Math.pow(value1, value2);
+                        break;
+                    case "%":
+                        finalTotal = value1 * (value2 / 100);
+                        break;
+                }
+                if (isNaN(finalTotal) || !isFinite(finalTotal)) {
+                    inputBox.value = "Error";
+                    return;
+                }
+                inputBox.value = finalTotal.toFixed(4);
+                value1 = 0;
+                CurrentOperator = null;
+                newLine = true;
+            }
+        </script>
+    </body>
+</html>
